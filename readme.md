@@ -368,3 +368,83 @@ console.log("sleeps")
 f_sleep_ms(1000).then(function(){})
 console.log("finally reached")
 ```
+
+
+## iterators 
+an object with a `next` function , a `value` property and a `done` property
+```javascript
+class O_iterator{
+    construtct(n_start, n_end){
+        debugger
+        this.n_start = n_start 
+        this.n_end = n_end
+        this.n = n_start
+        console.log(this)
+        this.f_o_next = this.next
+    
+    }
+
+    next(){
+        console.log(this)
+        var self = this
+        let o = {value: 0, done: true}
+        debugger
+        if(self.n < self.n_end){
+            o.value = self.n 
+            o.done = false
+            self.n+=1
+            return o
+        }
+        o.value = Math.abs(self.n_end - self.n_start)
+        return o
+    }
+}
+
+//using it 
+var o_iterator = new O_iterator(0, 10)
+let o_result = o_iterator.next()
+while(!o_result.done){
+    console.log(`iterator is not done yet, current value: ${o_result.value}`)
+    o_result = it.next();
+}
+console.log(`iterator is done: `)
+console.log(`${o_iterator}`)
+console.log(`${o_result}`)
+```
+
+## destructuring 
+also sometimes called unpacking 
+```javascript
+
+const {a, b} = {a:1,b:2}
+console.log(a)//1
+console.log(b)//2
+
+let [a, b, rest] = [1,2,3,4,5,6,7,8,9]
+console.log(a) //1
+console.log(b) //2
+console.log(rest)// [3]
+
+let [a, b, ...spreaded_rest] = [1,2,3,4,5,6,7,8,9]
+console.log(a) //1
+console.log(b) //2
+console.log(spreaded_rest)// Array(7) [3,4,5,6,7,8,9]
+
+var obj = {a:1,b:2}
+let ({a,b} = obj)
+
+let {n_a, n_b} = {q1:1, q2:2,q3:3,q4:4}
+console.log(n_a)//undefined
+console.log(n_b)//undefined
+
+
+let {n_a:n_a1, n_b} = {n_a:11, n_b:22}
+console.log(n_a)//undefined
+console.log(n_a1)//11
+console.log(n_b)//22
+
+var obj = {old_prop_name: 100}
+let {old_prop_name: new_var_name } =  obj
+
+console.log(new_var_name) // 100
+```
