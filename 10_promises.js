@@ -254,7 +254,12 @@ var f_o_data = function(b_reject){
 var f_o__filled_asyncally = async function(){
 
     var o = {
-    
+        b: true, 
+        n: 2, 
+        s: 'just a string', 
+        o: {n:22}, 
+        a_n: [1,2,3],
+        a_o:[{n:2, n:3}, {n:3}],
         o1: await f_o_data(),// those two first async functions will be executed one after another because we use await keyword
         o2: await f_o_data(),// 
         o3: f_o_data(),// theese three can load parallel
