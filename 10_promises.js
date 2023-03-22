@@ -215,3 +215,64 @@ var o_promise = new Promise(f_promise_resolver).then(
 console.log("answer: no")
 
 console.log("22020200202")
+
+
+// can we directly access the output of a promise and assign it to an object ? 
+
+var f_o_data = function(b_reject){
+
+    return new Promise(
+        function(
+            f_resolve, 
+            f_reject
+        ){
+
+            window.setTimeout(function(){
+
+                var n_ts_ms = parseInt(new Date().getTime());
+                // if(n_ts_ms % 2 == 0){
+                //     f_reject(`i rejected because n_ts_ms ${n_ts_ms} % 2 == 0 is true :shrug:`)
+                // }
+                if(b_reject){
+                    f_reject('i rejected because true was passed to function')
+                }
+                f_resolve(
+                    {
+                        n_ts_ms: n_ts_ms,
+                        s: 'i am the result object', 
+                        n: 23, 
+                        b: true, 
+                        a_n: [1,2,3], 
+                        a_o:[{n:2, n:3}, {n:3}]
+                    }
+                )
+
+            },parseInt(Math.random()*3333+555))
+        }
+    )
+}
+var f_o__filled_asyncally = async function(){
+
+    var o = {
+    
+        o1: await f_o_data(),// those two first async functions will be executed one after another because we use await keyword
+        o2: await f_o_data(),// 
+        o3: f_o_data(),// theese three can load parallel
+        o4: f_o_data().then(function(o){return o}),// theese three can load parallel
+        o5: f_o_data(),// theese three can load parallel
+        // o6: f_o_data(true),// theese three can load parallel
+    }
+    return Promise.all(Object.values(o)).then(
+        function(a_o_promise){
+            return o
+        }
+    )
+    // console.log(o)
+    // console.log(o.o3)
+    // console.log(o.o4)
+    // console.log(o.o5)
+    // return o;
+}
+
+var o_my_object_i_want_to_fill_asyncally = await f_o__filled_asyncally();
+console.log(o_my_object_i_want_to_fill_asyncally)
