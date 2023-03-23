@@ -251,33 +251,32 @@ var f_o_data = function(b_reject){
         }
     )
 }
-var f_o__filled_asyncally = async function(){
+var f_o__filled_asyncally = async function(o){
 
-    var o = {
-        b: true, 
-        n: 2, 
-        s: 'just a string', 
-        o: {n:22}, 
-        a_n: [1,2,3],
-        a_o:[{n:2, n:3}, {n:3}],
-        o1: await f_o_data(),// those two first async functions will be executed one after another because we use await keyword
-        o2: await f_o_data(),// 
-        o3: f_o_data(),// theese three can load parallel
-        o4: f_o_data().then(function(o){return o}),// theese three can load parallel
-        o5: f_o_data(),// theese three can load parallel
-        // o6: f_o_data(true),// theese three can load parallel
-    }
+    var a_s_prop_name = Object.keys(o);
     return Promise.all(Object.values(o)).then(
-        function(a_o_promise){
-            return o
+        function(a_value){
+            var a_a_v = a_s_prop_name.map((s_prop_name, n_idx) => [s_prop_name, a_value[n_idx]]);
+            return Object.fromEntries(a_a_v)
         }
     )
-    // console.log(o)
-    // console.log(o.o3)
-    // console.log(o.o4)
-    // console.log(o.o5)
-    // return o;
 }
 
-var o_my_object_i_want_to_fill_asyncally = await f_o__filled_asyncally();
+var o = {
+    b: true, 
+    n: 2, 
+    s: 'just a string', 
+    o: {n:22}, 
+    a_n: [1,2,3],
+    a_o:[{n:2, n:3}, {n:3}],
+    o1: await f_o_data(),// those two first async functions will be executed one after another because we use await keyword
+    o2: await f_o_data(),// 
+    o3: f_o_data(),// theese three can load parallel
+    o4: f_o_data().then(function(o){return o}),// theese three can load parallel
+    o5: f_o_data(),// theese three can load parallel
+    // o6: f_o_data(true),// theese three can load parallel
+}
+var o_my_object_i_want_to_fill_asyncally = await f_o__filled_asyncally(o);
 console.log(o_my_object_i_want_to_fill_asyncally)
+
+
